@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>张琰淞大笨蛋</h1>
+<table id="dataTable" border="1" cellpadding="0" cellspacing="0" style="text-align: center;">
+    <tr>
+        <th colspan="4">Employee Info</th>
+    </tr>
+    <tr>
+        <th>id</th>
+        <th>name</th>
+        <th>money</th>
+        <th><a th:href="@{/toAdd}">添加</a> </th>
+
+    </tr>
+    <tr th:each="employee : ${lists}">
+        <td th:text="${employee.id}"></td>
+        <td th:text="${employee.name}"></td>
+        <td th:text="${employee.money}"></td>
+        <td> <a th:href="@{'/user/'+${employee.id}}">修改</a></td>
+        <td> <a  @click="del" th:href="@{'/user/'+${employee.id}}">删除</a>&nbsp;</td>
+    </tr>
+</table>
+<form id="deleteForm" method="post">
+    <input type="hidden" name="_method" value="delete">
+    <script type="text/javascript" th:src="@{/static/js/vue.js}"></script>
+<script type="text/javascript">
+    new Vue({
+        el:"#dataTable",
+        methods:{
+            del:function (event){
+                //根据id获取表单元素
+                var deleteForm = document.getElementById("deleteForm");
+                //将初发表单事件的超链接的href属性赋值给表单的action
+                deleteForm.action=event.target.href;
+                //提交表单
+                deleteForm.submit();
+                //取消超链接的默认行为
+                event.preventDefault();
+            }
+        }
+    });
+
+</script>
+</form>
+</body>
+</html>
